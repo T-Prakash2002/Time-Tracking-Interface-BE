@@ -1,5 +1,5 @@
 
-const { UserModel } = require('./schema')
+const { UserModel,ProjectModel } = require('./schema')
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv')
@@ -101,10 +101,29 @@ const handleLogin = async (req, res) => {
 
 }
 
+const handleAddProject=async (req,res)=>{
+    // const {id,userEmail,project_name,time,createDate,endDate}=req.body;
+    const newProject=req.body
+
+    try {
+        
+        const dbRes=await ProjectModel.create({...newProject})
+
+        if(!dbRes){
+            return res.send({message:"Project not created"})
+        }
+
+        return res.send({message:"Project created Success"})
+    } catch (error) {
+        res.send({message:"Not Created Project"})
+    }
+
+}
+
 
 module.exports = {
     handleRegister,
     handleLogin,
-
+    handleAddProject
 
 }
