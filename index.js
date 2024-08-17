@@ -9,7 +9,11 @@ const cors = require('cors');
 const { 
     handleRegister,
     handleLogin,
+    handlegetProject,
     handleAddProject,
+    handleDelete,
+    handleUpdate,
+
 } = require('./services');
 
 
@@ -46,8 +50,20 @@ app.get('/login',(req,res)=>{
     handleLogin(req,res)
 })
 
+app.get('/getProject',(req,res)=>{
+    handlegetProject(req,res)
+})
+
 app.post('/addProject',(req,res)=>{
     handleAddProject(req,res)
+})
+
+app.delete('/deleteProject',(req,res)=>{
+    handleDelete(req,res)
+})
+
+app.put('/updateProject',(req,res)=>{
+    handleUpdate(req,res)
 })
 
 

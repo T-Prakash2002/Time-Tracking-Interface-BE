@@ -101,6 +101,24 @@ const handleLogin = async (req, res) => {
 
 }
 
+const handlegetProject=async(req,res)=>{
+    const {email}=req.query;
+    try {
+    
+        const dbRes=await ProjectModel.find({userEmail:email})
+
+        if(!dbRes){
+            return res.send({
+                message:"Project not fetched",
+            })
+        }
+        return res.send({message:"All Projects fetched",data:dbRes})
+    } catch (error) {
+        return res.send({message:"Not fetched Project"})
+    }    
+    
+}
+
 const handleAddProject=async (req,res)=>{
     // const {id,userEmail,project_name,time,createDate,endDate}=req.body;
     const newProject=req.body
@@ -113,17 +131,56 @@ const handleAddProject=async (req,res)=>{
             return res.send({message:"Project not created"})
         }
 
-        return res.send({message:"Project created Success"})
+        return res.send({message:"Project created Successfully"})
     } catch (error) {
-        res.send({message:"Not Created Project"})
+        return res.send({message:"Not Created Project"})
     }
 
 }
 
+const handleDelete=async (req,res)=>{
+    const {id}=req.query;
+
+    try {
+        
+        const dbRes=await ProjectModel.findOneAndDelete({id})
+
+        if(!dbRes){
+            return res.send({message:"Project not Deleted"})
+        }
+
+        return res.send({message:"Project Deleted Successfully"})
+    } catch (error) {
+        return res.send({message:"Not Deleted Project"})
+    }
+
+    
+}
+
+const handleUpdate =async (req,res)=>{
+
+     const {id}=req.query;
+     const project=req.body;
+    
+    try {
+        
+        const dbRes=await ProjectModel.findOneAndUpdate({id},{...project})
+
+        if(!dbRes){
+            return res.send({message:"Project not Updated"})
+        }
+
+        return res.send({message:"Project Updated Successfully"})
+    } catch (error) {
+        return res.send({message:"Not Updated Project"})
+    }
+}
 
 module.exports = {
     handleRegister,
     handleLogin,
-    handleAddProject
-
+    handlegetProject,
+    handleAddProject,
+    handleDelete,
+    handleUpdate
 }
